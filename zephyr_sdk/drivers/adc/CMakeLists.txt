@@ -1,0 +1,1 @@
+add_subdirectory_ifdef(CONFIG_ADC_AD7124_SINGLE ad7124_single)
