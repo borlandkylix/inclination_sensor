@@ -7,4 +7,4 @@ patches:
     date: 2026-02-19
     upstreamable: false
     comments: |
-      Patch AD7124 driver to support features needed by purple pedal
+      Patch AD7124 driver to support features needed by InclinationSensor

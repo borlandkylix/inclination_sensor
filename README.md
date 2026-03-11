@@ -45,7 +45,7 @@ Follow the below steps to clone code in WSL and open it in VSCode:
 2. git clone the project to ~/Documents folder. Note that do not use any folder mapped from your WIndows host to WSL, because this will result in slow disk access and slow build.
 3. enter the folder and start vscode from the folder
 ```shell
-cd ~/Documents/purple_pedal
+cd ~/Documents/inclination_sensor
 code .
 ```
 4. VSCode will open the folder, set up the docker machine. Then proceed do section "Initialize the zephyr workspace"
@@ -54,7 +54,7 @@ code .
 
 See application readme file for detailed build, flash and debug instructions
 
-# Purple Pedal application
+# Inclination Sensor application
 
-see /zephyr_sdk/app_purple_pedal for the Purple Pedal application.
+see /zephyr_sdk/app_incl_sensor for the Inclination Sensor application.
 
