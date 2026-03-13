@@ -12,4 +12,8 @@ project(app LANGUAGES C)
 target_sources(app PRIVATE 
                 src/main.c
                 src/bt_manager.c
-                src/incl_svc.c)
+                src/incl_svc.c
+                src/sensor.c
+                objdict/CO_OD.c)
+
+zephyr_include_directories(objdict)

@@ -28,6 +28,8 @@ west build -b esp32c6_devkitc/esp32c6/hpcore -S flash-8M zephyr/samples/bluetoot
 
 west build -b esp32c6_devkitc/esp32c6/hpcore -S flash-8M zephyr/samples/bluetooth/peripheral_hr -- -DCONFIG_DEBUG_THREAD_INFO=y -DOPENOCD=$ESPRESSIF_TOOLCHAIN_PATH/openocd-esp32/bin/openocd -DOPENOCD_DEFAULT_PATH=$ESPRESSIF_TOOLCHAIN_PATH/openocd-esp32/share/openocd/scripts
 
+west build -b esp32c6_devkitc/esp32c6/hpcore -S flash-8M zephyr_sdk/app_incl_sensor/ -- -DOPENOCD=$ESPRESSIF_TOOLCHAIN_PATH/openocd-esp32/bin/openocd -DOPENOCD_DEFAULT_PATH=$ESPRESSIF_TOOLCHAIN_PATH/openocd-esp32/share/openocd/scripts
+
 west espressif monitor -p /dev/ttyUSB0
 ```
 
@@ -57,3 +59,7 @@ GPIO 3,LP_GPIO3,
 GPIO 4,LP_GPIO4,
 GPIO 5,LP_GPIO5,
 GPIO 6,LP_GPIO6,
+
+# 3. CANOpen topic
+
+https://github.com/CANopenNode/CANopenEditor

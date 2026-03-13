@@ -10,6 +10,31 @@ menu "Zephyr"
 source "Kconfig.zephyr"
 endmenu
 
+menu "Pregnancy Patch App"
+
+# config NUM_MANAGED_NET_BUF
+# 	int "Number of managed net_buf"
+#     default 20
+#     range 0 $(UINT16_MAX)
+# 	help
+# 	  Use this to set maximum number of managed net_buf. Static memory will be allocated.
+
+config INCL_SENSOR_READ_THREAD_PRIO
+	int "inclination sensor read thread priority"
+	#This priority shall be equal to or higher than ADC_ADS1299_ACQUISITION_WORKQUEUE_PRIO
+	#otherwise, it may trigger error on ADC read happens without output buffer
+	default 1
+	help
+	  Priority inclination sensor read thread
+
+config INCL_SENSOR_READ_THREAD_STACK_SIZE
+	int "Stack size for the inclination sensor read thread"
+	default 1024
+	help
+	  Size of the stack used for the inclination sensor read thread
+   
 module = APP
 module-str = APP
 source "subsys/logging/Kconfig.template.log_config"
+
+endmenu   

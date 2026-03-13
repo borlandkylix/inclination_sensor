@@ -114,6 +114,7 @@ static enum smf_state_result connected_run(void *o)
 static void sensing_entry(void *o)
 {
 	LOG_DBG("sensing_entry()");
+	incl_sensor_data_read_start();
 }
 
 static enum smf_state_result sensing_run(void *o)
@@ -128,11 +129,17 @@ static enum smf_state_result sensing_run(void *o)
 	return SMF_EVENT_HANDLED;
 }
 
+static void sensing_exit(void *o)
+{
+	LOG_DBG("sensing_exit()");
+	incl_sensor_data_read_stop();
+}
+
 static const struct smf_state incl_sensor_sm_states[] = {
         [APP_STATE_INIT] = SMF_CREATE_STATE(init_entry, init_run, NULL, NULL, NULL),
 		[APP_STATE_IDLE] = SMF_CREATE_STATE(idle_entry, idle_run, NULL, NULL, NULL),
         [APP_STATE_CONNECTED] = SMF_CREATE_STATE(connected_entry, connected_run, NULL, NULL, NULL),
-        [APP_STATE_SENSING] = SMF_CREATE_STATE(sensing_entry, sensing_run, NULL, NULL, NULL),
+        [APP_STATE_SENSING] = SMF_CREATE_STATE(sensing_entry, sensing_run, sensing_exit, NULL, NULL),
 };
 
 static void incl_sensor_event_cb(const struct zbus_channel *chan)

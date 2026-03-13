@@ -44,6 +44,7 @@ struct bt_incl_svc_cb{
 };
 
 int incl_svc_cb_register(struct bt_incl_svc_cb *cb);
+int incl_svc_send_data(const struct incl_sensor_data *data);
 
 #ifdef __cplusplus
 }

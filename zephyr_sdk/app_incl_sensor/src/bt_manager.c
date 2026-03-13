@@ -178,3 +178,11 @@ int start_ble_adv(void)
     }
     return 0;
 }
+
+static void incl_sensor_data_read_cb(const struct zbus_channel *chan)
+{
+	const struct incl_sensor_data *data = zbus_chan_const_msg(chan);
+    //send BLE notification
+    incl_svc_send_data(data);
+}
+ZBUS_LISTENER_DEFINE(incl_sensor_data_read_handler, incl_sensor_data_read_cb);

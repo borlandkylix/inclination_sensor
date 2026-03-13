@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 enum app_state{
 	APP_STATE_INIT=0,
 	APP_STATE_IDLE,
@@ -46,8 +48,19 @@ struct incl_sensor_event{
         ((ev_type) == EVENT_SYSTEM) ? ((event_ptr)->system == (enum inc_sensor_system_event_type)(ev_subtype)) : false \
     ))
 
+struct incl_sensor_data{
+	int16_t left_x;
+	int16_t left_y;
+	int16_t right_x;
+	int16_t right_y;
+	int16_t error_code;
+}__packed;
+
 int start_ble(void);
 int start_ble_adv(void);
+
+void incl_sensor_data_read_start(void);
+void incl_sensor_data_read_stop(void);
 
 #ifdef __cplusplus
 }
