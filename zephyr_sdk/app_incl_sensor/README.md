@@ -62,4 +62,54 @@ GPIO 6,LP_GPIO6,
 
 # 3. CANOpen topic
 
+Tool to help parse the CANOpen *.eds file:
+
 https://github.com/CANopenNode/CANopenEditor
+
+CAN bus communication protocol of TMS/TMM61 sensors:
+
+https://www.sick.com/media/docs/3/53/853/operating_instructions_tms_tmm61_tms_tmm88_tms_tmm88_dynamic_canopen_inclination_sensors_en_im0064853.pdf
+
+## 3.1 Power up and intialization
+
+After power up, the SICK sensor stays in pre-operational status,
+until  Start Remote Node command switches the inclination sensor to Operational status.
+
+It also automatically detects the baud rate on the CAN bus, 
+it monitors the messages that are being sent and received on the CAN bus
+but does not acknowledge them.
+
+When a valid CAN telegram is received, the correct baud rate is identified and set. 
+After this, the inclination sensor starts up, logs in with a boot-up message, and switches to Pre-Operational mode
+
+Boot-up message
+To signal that the device is ready for operation following switching on, a “boot-up
+message” is sent out. This message uses the ID of the NMT error control protocol and
+is permanently linked to the set device address (700h + node ID)
+
+## 3.2 measurement data
+By default, Transmit PDO, Transmission Type in object 1800.02h has value 1,
+Synchronized data transmission
+
+In synchronized data transmission, the process data is transmitted with the SYNC
+messages. The cycle is formed from a multiple of the SYNC messages. The factor can
+be between 1 and 240,
+
+when the value is 1, every SYNC value will trigger a measurement and transmission.
+
+## 3.3 operate the sensor
+
+The process to power up and initialize the sensor is:
+
+1. turn on power.
+2. MCU repeately sends out RTR frame and monitor node guarding message or bootup message
+3. MCU sends out "Start Remote Node" command
+4. MCU repeately sends out  RTR frame and monitor node guarding message until in operational state
+5. MCU sends out SYNC periodically, and gets SDO
+
+struce device* can_dev
+struct can_filter filter
+can_rx_callback_t cb
+int filter_id
+void* user_data (sensor context)
+struct k_msgq *	msgq //maybe message queue is a better idea

@@ -15,7 +15,7 @@
 LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
 
 ZBUS_CHAN_DEFINE(incl_sensor_event_chan,  /* Name */
-		 struct incl_sensor_event, /* Message type */
+		 struct incl_sensor_system_event, /* Message type */
 		 NULL, /* Validator */
 		 NULL, /* User data */
 		 ZBUS_OBSERVERS(incl_sensor_event_handler), /* observers */
@@ -29,11 +29,11 @@ struct incl_sensor_state_machine{
 	struct smf_ctx sm_ctx;
 	const struct smf_state *sm_states;
 	struct k_msgq* msgq;
-	struct incl_sensor_event event;
+	struct incl_sensor_system_event event;
 };
 
 /* USB state machine */
-K_MSGQ_DEFINE(sm_msgq, sizeof(struct incl_sensor_event), 10, 1); 
+K_MSGQ_DEFINE(sm_msgq, sizeof(struct incl_sensor_system_event), 10, 1); 
 static struct incl_sensor_state_machine incl_sensor_sm = {.msgq = &sm_msgq, .sm_states = incl_sensor_sm_states};
 
 static void init_entry(void *o)
@@ -47,7 +47,7 @@ static void init_entry(void *o)
 
 	//TODO: Other initialization such as sensors, adc, etc
 
-    struct incl_sensor_event event = {
+    struct incl_sensor_system_event event = {
         .type = EVENT_SYSTEM,
         .system = SYSTEM_INITIATED,
     };
@@ -144,7 +144,7 @@ static const struct smf_state incl_sensor_sm_states[] = {
 
 static void incl_sensor_event_cb(const struct zbus_channel *chan)
 {
-	const struct incl_sensor_event *event = zbus_chan_const_msg(chan);
+	const struct incl_sensor_system_event *event = zbus_chan_const_msg(chan);
 	int err = k_msgq_put(incl_sensor_sm.msgq, event, K_FOREVER);
 	if(err){
 		LOG_ERR("k_msgq_put() returns %d", err);

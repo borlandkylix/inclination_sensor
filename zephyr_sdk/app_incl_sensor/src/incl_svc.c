@@ -47,12 +47,12 @@ int incl_svc_cb_register(struct bt_incl_svc_cb *cb)
 	return 0;
 }
 
-int incl_svc_send_data(const struct incl_sensor_data *data)
+int incl_svc_send_data(const struct incl_sensor_system_data *data)
 {	
 	if(!data){
 		return -EINVAL;
 	}
-	int err = bt_gatt_notify(NULL, &incl_svc.attrs[GATT_CHARACTERISTIC_INDEX_INCL_SENSOR_RPT], data, sizeof(struct incl_sensor_data));
+	int err = bt_gatt_notify(NULL, &incl_svc.attrs[GATT_CHARACTERISTIC_INDEX_INCL_SENSOR_RPT], data, sizeof(struct incl_sensor_system_data));
 	if(err){
 		LOG_ERR("bt_gatt_notify() returns %d", err);
 	}

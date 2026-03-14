@@ -1,0 +1,68 @@
+/ {
+	reg_vsens: reg-vsens {
+		compatible = "regulator-fixed";
+		regulator-name = "reg-vsens";
+		enable-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
+		regulator-boot-off;
+		status = "okay";
+	};
+
+	transceiver0: can-phy0 {
+		compatible = "can-transceiver-gpio";
+		enable-gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
+		max-bitrate = <1000000>;
+		#phy-cells = <0>;
+	};
+
+	transceiver1: can-phy1 {
+		compatible = "can-transceiver-gpio";
+		enable-gpios = <&gpio0 20 GPIO_ACTIVE_HIGH>;
+		max-bitrate = <1000000>;
+		#phy-cells = <0>;
+	};
+
+	aliases {
+		can-left = &twai0;
+        can-right = &twai1;
+		incl-sensor-reg = &reg_vsens;
+	};
+};
+
+&pinctrl {
+	twai0_default: twai0_default {
+		group1 {
+			pinmux = <TWAI0_RX_GPIO22>;
+			output-enable;	
+		};
+
+		group2 {
+			pinmux = <TWAI0_TX_GPIO21>;
+		};
+	};
+	twai1_default: twai1_default {
+		group1 {
+			pinmux = <TWAI1_RX_GPIO19>;
+			output-enable;	
+		};
+
+		group2 {
+			pinmux = <TWAI1_TX_GPIO18>;
+		};
+	};
+};
+
+&twai0 {
+	status = "okay";
+	pinctrl-0 = <&twai0_default>;
+	pinctrl-names = "default";
+
+	phys = <&transceiver0>;
+};
+
+&twai1 {
+	status = "okay";
+	pinctrl-0 = <&twai1_default>;
+	pinctrl-names = "default";
+
+	phys = <&transceiver1>;
+};

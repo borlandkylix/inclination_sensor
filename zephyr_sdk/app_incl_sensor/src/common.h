@@ -34,7 +34,7 @@ enum inc_sensor_system_event_type{
 	SYSTEM_ERROR,
 };
 
-struct incl_sensor_event{
+struct incl_sensor_system_event{
 	enum incl_sensor_event_type type;
 	union{
 		enum incl_sensor_ble_event_type ble;
@@ -48,7 +48,7 @@ struct incl_sensor_event{
         ((ev_type) == EVENT_SYSTEM) ? ((event_ptr)->system == (enum inc_sensor_system_event_type)(ev_subtype)) : false \
     ))
 
-struct incl_sensor_data{
+struct incl_sensor_system_data{
 	int16_t left_x;
 	int16_t left_y;
 	int16_t right_x;

@@ -30,7 +30,7 @@ static void connected(struct bt_conn *conn, uint8_t err)
 
     LOG_INF("BT Connected: %s\n", addr);
 
-    struct incl_sensor_event event = {
+    struct incl_sensor_system_event event = {
         .type = EVENT_BLE,
         .ble = BLE_CONNECTED,
     };
@@ -56,7 +56,7 @@ static void disconnected(struct bt_conn *conn, uint8_t reason)
 	bt_conn_unref(default_conn);
 	default_conn = NULL;
 
-    struct incl_sensor_event event = {
+    struct incl_sensor_system_event event = {
         .type = EVENT_BLE,
         .ble = BLE_DISCONNECTED,
     };
@@ -95,7 +95,7 @@ void incl_svc_notify_enabled_cb(bool enabled, void *ctx)
 {
     LOG_INF("incl_svc_notify_enabled_cb: enabled=%d\n", enabled);
     if(enabled){
-        struct incl_sensor_event event = {
+        struct incl_sensor_system_event event = {
             .type = EVENT_BLE,
             .ble = BLE_NOTIFY_ENABLED,
         };
@@ -105,7 +105,7 @@ void incl_svc_notify_enabled_cb(bool enabled, void *ctx)
         }
     }
     else{
-        struct incl_sensor_event event = {
+        struct incl_sensor_system_event event = {
             .type = EVENT_BLE,
             .ble = BLE_NOTIFY_DISABLED,
         };
@@ -154,7 +154,7 @@ static void adv_restart_fn(struct k_work *work)
         bt_conn_auth_cb_register(&ble_auth_cb_display);
 #endif
     }
-    // struct incl_sensor_event event = {
+    // struct incl_sensor_system_event event = {
     //     .type = EVENT_BLE,
     //     .ble = BLE_ADV_STARTED,
     // };
@@ -181,7 +181,7 @@ int start_ble_adv(void)
 
 static void incl_sensor_data_read_cb(const struct zbus_channel *chan)
 {
-	const struct incl_sensor_data *data = zbus_chan_const_msg(chan);
+	const struct incl_sensor_system_data *data = zbus_chan_const_msg(chan);
     //send BLE notification
     incl_svc_send_data(data);
 }
