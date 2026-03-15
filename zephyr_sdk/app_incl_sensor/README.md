@@ -112,4 +112,8 @@ struct can_filter filter
 can_rx_callback_t cb
 int filter_id
 void* user_data (sensor context)
-struct k_msgq *	msgq //maybe message queue is a better idea
+struct k_msgq *	msgq //maybe message queue is a better idea, just wait for 
+
+Total number of filters are not that many, filters can be added all at once.
+
+Note that ESP32C6 uses CONFIG_CAN_SJA1000_MAX_FILTERS to control max number of CAN bus filters
